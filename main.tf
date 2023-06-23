@@ -61,3 +61,11 @@ resource "aws_route_table" "private_route_table" {
     { Name = "${var.env}-${each.value["name"]}" }
   )
 }
+
+### private  route table association
+resource "aws_route_table_association" "a" {
+  for_each = var.private_subnets
+  subnet_id      = lookup(lookup(aws_subnet.private_subnets, each.value["name"] , null), "id" , null)
+  #subnet_id      = aws_subnet.private_subnets[each.value["name"]].id
+  route_table_id = aws_route_table.private_route_table[each.value["name"]].id
+}
