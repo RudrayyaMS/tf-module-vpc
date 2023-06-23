@@ -33,7 +33,7 @@ resource "aws_route_table" "public_route_table" {
 ### public  route table association
 resource "aws_route_table_association" "a" {
   for_each = var.public_subnets
-  subnet_id      = aws_subnet.public_subnets[each.value["name"]].id
+  subnet_id      = lookup(lookup(aws_subnet.public_subnets, each.value["name"] , null), "id" , null)
   #subnet_id      = aws_subnet.public_subnets[each.value["name"]].id
   route_table_id = aws_route_table.public_route_table[each.value["name"]].id
 }
