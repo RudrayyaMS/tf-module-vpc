@@ -34,7 +34,7 @@ resource "aws_internet_gateway" "igw" {
 
 resource "aws_eip" "nat" {
   for_each = var.public_subnets
-  vpc   = true
+  domain   = "vpc"
 }
 
 resource "aws_nat_gateway" "nat-gateways" {
@@ -89,6 +89,10 @@ resource "aws_route_table" "private_route_table" {
   vpc_id = aws_vpc.main.id
 
   for_each = var.private_subnets
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat-gateways[eac.value["availability_zone"]].id
+  }
   tags = merge(
     var.tags,
     { Name = "${var.env}-${each.value["name"]}" }
