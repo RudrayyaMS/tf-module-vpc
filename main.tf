@@ -16,7 +16,7 @@ resource "aws_subnet" "public_subnets" {
   )
 
   for_each = var.public_subnets
-  cidr_block = "10.0.1.0/24"
+  cidr_block = each.value["cidr_block"]
   availability_zone = each.value["availability_zone"]
 
 }
