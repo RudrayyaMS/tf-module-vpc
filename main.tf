@@ -71,7 +71,7 @@ resource "aws_route_table" "public_route_table" {
 
   # peering connection
   route {
-    cidr_block = "data.aws_vpc.default_vpc.cidr_block"
+    cidr_block = data.aws_vpc.default_vpc.cidr_block
     vpc_peering_connection_id = aws_vpc_peering_connection.peer.id
   }
 
@@ -114,7 +114,7 @@ resource "aws_route_table" "private_route_table" {
 
   # peering connection
   route {
-    cidr_block = "data.aws_vpc.default_vpc.cidr_block"
+    cidr_block = data.aws_vpc.default_vpc.cidr_block
     vpc_peering_connection_id = aws_vpc_peering_connection.peer.id
   }
 
